@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Гра "В кого більше число"</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-image: url('jpg/fon.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+    #game-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      width: 80%;
+      margin-top: 20px;
+      background-color: rgba(47, 45, 45, 0.5);
+      padding: 20px;
+      border-radius: 10px;
+    }
+    #players {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+    }
+    #player-names, #computer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    img {
+      max-width: 80%; 
+      height: auto;
+      margin-bottom: 10px;
+    }
+    #result {
+      width: 100%;
+      text-align: center;
+      color: white;
+    }
+    button {
+      margin-top: 10px;
+      padding: 8px 20px;
+      font-size: 16px;
+    }
+    h3 {
+      color: rgb(255, 255, 255); 
+    }
+    p {
+      color: rgb(255, 255, 255); 
+    }
+  </style>
+</head>
+<body>
+  <div id="game-container">
+    <div id="players">
+      <div id="player-names">
+        <h3 id="player-name"></h3>
+        <img src="jpg/user.jpg" alt="Гравець">
+        <p id="user-score">0</p>
+      </div>
+      <div id="computer">
+        <h3>Комп’ютер</h3>
+        <img src="jpg/ai2.png" alt="Комп’ютер">
+        <p id="computer-score">0</p>
+      </div>
+    </div>
+    <div id="result">
+      <h3>Результат</h3>
+      <p id="round-result"></p>
+      <p id="game-status"></p>
+      <button onclick="playRound()">Грати</button>
+    </div>
+  </div>
+  
+  <script>
+        let userScore = 0;
+    let computerScore = 0;
+    let roundCounter = 0;
+    const userName = prompt("Введіть своє ім'я:");
+    document.getElementById("player-name").textContent = userName;
+    document.getElementById("computer-score").textContent = "";
+
+    function playRound() {
+      const userNumber = Math.floor(Math.random() * 10) + 1;
+      const computerNumber = Math.floor(Math.random() * 10) + 1;
+
+      if (userNumber > computerNumber) {
+        userScore++;
+      } else if (computerNumber > userNumber) {
+        computerScore++;
+      }
+
+      document.getElementById("user-score").textContent = userScore;
+      document.getElementById("computer-score").textContent = computerScore;
+
+      const roundResult = document.getElementById("round-result");
+      if (userNumber === computerNumber) {
+        roundResult.textContent = `Нічия! Ваше число: ${userNumber}, Комп’ютер: ${computerNumber}`;
+      } else if (userNumber > computerNumber) {
+        roundResult.textContent = `${userName} виграв цей раунд! Ваше число: ${userNumber}, Комп’ютер: ${computerNumber}`;
+      } else {
+        roundResult.textContent = `Комп’ютер виграв цей раунд! Ваше число: ${userNumber}, Комп’ютер: ${computerNumber}`;
+      }
+      
+      roundCounter++;
+      
+      if (userScore === 3 || computerScore === 3) {
+        let winnerMessage = '';
+        if (userScore === 3) {
+          winnerMessage = `Вітаємо, ${userName} виграв!`;
+        } else {
+          winnerMessage = "Комп’ютер виграв!";
+        }
+        
+        alert(winnerMessage);
+        document.getElementById("game-status").textContent = winnerMessage;
+
+        roundCounter = 0;
+        userScore = 0;
+        computerScore = 0;
+        document.getElementById("user-score").textContent = userScore;
+        document.getElementById("computer-score").textContent = computerScore;
+        document.getElementById("round-result").textContent = "";
+
+        const gameStatus = document.getElementById("game-status");
+        gameStatus.textContent = "Гра почалася спочатку! Рахунки скинуті.";
+
+        setTimeout(() => {
+          gameStatus.textContent = "";
+        }, 1000);
+      }
+    }
+  </script>
+</body>
+</html>
